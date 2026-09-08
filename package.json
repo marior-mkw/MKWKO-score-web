@@ -1,0 +1,9 @@
+{
+  "name": "mkwko-score-web",
+  "version": "2.2.0",
+  "private": true,
+  "description": "Public scoreboard and fixed-order OBS overlay for MKWKO Score Bot",
+  "scripts": {
+    "test": "node --test"
+  }
+}

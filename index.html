@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://*.firebaseio.com https://*.firebasedatabase.app; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; media-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Public scoreboard for a Mario Kart World team tournament">
+  <title>Mario Kart World - Team Score</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Official scoreboard</p>
+        <h1 id="tournament-name">Mario Kart World - Team Knockout</h1>
+      </div>
+      <div class="hero-meta">
+        <div id="connection-status" class="status" data-state="loading">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="status-text">Connecting...</span>
+        </div>
+        <div id="board-label" class="updated"></div>
+        <div id="updated-at" class="updated">Not updated</div>
+      </div>
+    </header>
+
+    <section id="winner" class="winner" aria-live="polite">
+      <div>
+        <div class="winner-label">Winning team</div>
+        <div id="winner-name" class="winner-name">-</div>
+      </div>
+      <div id="winner-points" class="winner-points">0 pts</div>
+    </section>
+
+    <section id="summary-grid" class="summary-grid" aria-label="Overall standings"></section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Race breakdown</h2>
+        <div id="race-progress" class="progress" aria-label="Race progress"></div>
+      </div>
+      <div class="table-wrap">
+        <table class="score-table">
+          <thead id="score-head"></thead>
+          <tbody id="score-body"></tbody>
+        </table>
+        <div id="empty-state" class="empty-state" hidden>
+          This tournament does not have any recorded results yet.
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel points-strip">
+      <strong>Scoring system: <span id="scoring-name">MKCentral</span></strong>
+      <span id="points-list">1st 30, 2nd 26, 3rd 23, 4th 21, 5th 20, 6th 19, 7th 18, 8th 17, 9th 16, 10th 15, 11th 14, 12th 13, 13th 12, 14th 11, 15th 10, 16th 9, 17th 8, 18th 7, 19th 6, 20th 5, 21st 4, 22nd 3, 23rd 2, 24th 1.</span>
+      <span id="points-total">Each race awards exactly 310 points.</span>
+      <span>Final point ties use countback: most 1st-place finishes, then most 2nd-place finishes, continuing through 24th.</span>
+    </aside>
+  </main>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/common.js"></script>
+  <script src="assets/scoreboard.js"></script>
+</body>
+</html>
