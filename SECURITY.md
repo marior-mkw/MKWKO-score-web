@@ -2,7 +2,7 @@
 
 ## Supported version
 
-Security fixes are provided for the latest release. Version 2.1.0 is the current hardened public-client baseline.
+Security fixes are provided for the latest release. Version 2.2.1 is the current hardened public-client baseline.
 
 ## Public-client security model
 
