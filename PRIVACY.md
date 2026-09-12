@@ -2,9 +2,7 @@
 
 > Replace bracketed details before publishing. This template is not legal advice.
 
-**Effective date:** [DATE]  
-**Operator:** [OPERATOR NAME]  
-**Contact:** [PRIVACY CONTACT]
+**Effective date:** [Septender 6th, 2026]  
 
 ## Data displayed publicly
 
