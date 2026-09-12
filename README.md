@@ -45,7 +45,7 @@ Edit `assets/config.js` and set only the public Realtime Database URL:
 
 ```javascript
 window.MK_SCORE_CONFIG = {
-  databaseURL: "https://mkw-kobot-default-rtdb.firebaseio.com",
+  databaseURL: |secret|
   defaultGuildId: "",
   defaultBoardId: "",
   pollIntervalMs: 5000,
