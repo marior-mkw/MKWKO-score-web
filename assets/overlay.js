@@ -2,9 +2,9 @@
   "use strict";
 
   const boardEl = document.querySelector("#overlay-board");
-  const titleEl = document.querySelector("#overlay-title");
-  const roundEl = document.querySelector("#overlay-round");
+  const progressEl = document.querySelector("#overlay-progress-markers");
   const teamsEl = document.querySelector("#overlay-teams");
+  const tiebreakEl = document.querySelector("#overlay-tiebreak");
   const messageEl = document.querySelector("#overlay-message");
 
   let previousTotals = new Map();
@@ -20,7 +20,11 @@
     if (!state) {
       boardEl.hidden = true;
       messageEl.classList.add("visible");
-      messageEl.textContent = "Waiting for tournament setup";
+      messageEl.textContent = "Waiting for channel match setup";
+      if (tiebreakEl) {
+        tiebreakEl.hidden = true;
+        tiebreakEl.replaceChildren();
+      }
       return;
     }
 
@@ -28,14 +32,35 @@
     messageEl.classList.remove("visible");
 
     const standings = window.MKScore.getStandings(state);
-    const completed = state.races.length;
-    const finished = completed >= state.maxRaces || state.status === "finished";
+    const completed = Math.min(state.races.length, state.maxRaces);
 
-    titleEl.textContent = state.name;
-    const scoring = window.MKScore.getScoringPreset(state.scoringSystem);
-    roundEl.textContent = finished
-      ? `Final result · ${scoring.label}`
-      : `Race ${completed} / ${state.maxRaces} · ${scoring.label}`;
+    const progressFragment = document.createDocumentFragment();
+    for (let raceNumber = 1; raceNumber <= state.maxRaces; raceNumber += 1) {
+      const marker = createElement("span", "overlay-race-marker");
+      if (raceNumber <= completed) marker.classList.add("completed");
+      marker.setAttribute("aria-hidden", "true");
+      progressFragment.append(marker);
+    }
+    progressEl.setAttribute(
+      "aria-label",
+      `${completed} of ${state.maxRaces} races completed`
+    );
+    progressEl.replaceChildren(progressFragment);
+
+    const tiebreakDetails = window.MKScore.getTiebreakDetails(state, standings);
+    if (tiebreakEl) {
+      if (tiebreakDetails.length) {
+        const tiebreakFragment = document.createDocumentFragment();
+        for (const detail of tiebreakDetails) {
+          tiebreakFragment.append(createElement("div", "overlay-tiebreak-line", detail.text));
+        }
+        tiebreakEl.replaceChildren(tiebreakFragment);
+        tiebreakEl.hidden = false;
+      } else {
+        tiebreakEl.hidden = true;
+        tiebreakEl.replaceChildren();
+      }
+    }
 
     const standingByTag = new Map(standings.map(team => [team.tag, team]));
     const fragment = document.createDocumentFragment();

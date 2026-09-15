@@ -9,13 +9,16 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname, "..");
 const indexHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const overlayHtml = fs.readFileSync(path.join(root, "overlay.html"), "utf8");
+const tiktokHorizontalHtml = fs.readFileSync(path.join(root, "overlay-tiktok-horizontal.html"), "utf8");
+const tiktokVerticalHtml = fs.readFileSync(path.join(root, "overlay-tiktok-vertical.html"), "utf8");
+const stylesSource = fs.readFileSync(path.join(root, "assets/styles.css"), "utf8");
 const commonSource = fs.readFileSync(path.join(root, "assets/common.js"), "utf8");
 const scoreboardSource = fs.readFileSync(path.join(root, "assets/scoreboard.js"), "utf8");
 const overlaySource = fs.readFileSync(path.join(root, "assets/overlay.js"), "utf8");
 const configSource = fs.readFileSync(path.join(root, "assets/config.js"), "utf8");
 
-test("both public pages define a restrictive CSP and no-referrer policy", () => {
-  for (const html of [indexHtml, overlayHtml]) {
+test("all public pages define a restrictive CSP and no-referrer policy", () => {
+  for (const html of [indexHtml, overlayHtml, tiktokHorizontalHtml, tiktokVerticalHtml]) {
     assert.match(html, /Content-Security-Policy/);
     assert.match(html, /default-src 'none'/);
     assert.match(html, /script-src 'self'/);
@@ -150,4 +153,132 @@ test("OBS overlay keeps fixed setup order and renders each tag only once", () =>
   assert.match(overlaySource, /standingByTag/);
   assert.doesNotMatch(overlaySource, /createElement\("div", "overlay-name"/);
   assert.doesNotMatch(overlaySource, /for \(const team of standings\)/);
+});
+
+
+test("TikTok overlay variants preserve security and declare dedicated layout classes", () => {
+  assert.match(tiktokHorizontalHtml, /overlay-tiktok-horizontal/);
+  assert.match(tiktokVerticalHtml, /overlay-tiktok-vertical/);
+  assert.match(stylesSource, /body\.overlay-tiktok-horizontal \.overlay-shell/);
+  assert.match(stylesSource, /body\.overlay-tiktok-vertical \.overlay-shell/);
+  const overlayCss = stylesSource.split("/* OBS overlay")[1] || "";
+  assert.doesNotMatch(overlayCss, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
+  const twoByTwoMatches = overlayCss.match(/grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/g) || [];
+  assert.ok(twoByTwoMatches.length >= 2);
+});
+
+
+test("OBS overlays use compact race markers instead of title and race text", () => {
+  for (const html of [overlayHtml, tiktokHorizontalHtml, tiktokVerticalHtml]) {
+    assert.match(html, /id="overlay-progress-markers"/);
+    assert.doesNotMatch(html, /id="overlay-title"/);
+    assert.doesNotMatch(html, /id="overlay-round"/);
+    assert.doesNotMatch(html, /Mario Kart World - Team Knockout/);
+    assert.doesNotMatch(html, /Race 0 \/ 5/);
+  }
+  assert.match(overlaySource, /overlay-race-marker/);
+  assert.match(overlaySource, /raceNumber <= completed/);
+  assert.match(stylesSource, /\.overlay-progress \{/);
+  assert.match(stylesSource, /\.overlay-race-marker\.completed/);
+});
+
+
+test("all OBS variants use the requested fixed 2 x 2 team layout", () => {
+  assert.match(stylesSource, /\.overlay-teams\s*\{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(stylesSource, /body\.overlay-tiktok-vertical \.overlay-teams\s*\{[\s\S]*?repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(stylesSource, /\.overlay-team:nth-child\(2n\) \{ border-right: 0; \}/);
+  assert.match(stylesSource, /\.overlay-team:nth-child\(-n\+2\) \{ border-bottom:/);
+});
+
+test("channel URLs derive a deterministic board while legacy board URLs remain readable", () => {
+  const context = {
+    window: {
+      location: { search: "?guild=123456789012345678&channel=111111111111111111" },
+      MK_SCORE_CONFIG: {}, setTimeout, clearTimeout
+    },
+    URL, URLSearchParams, Intl, Date, console,
+    fetch: async () => { throw new Error("not called"); }, AbortController
+  };
+  vm.createContext(context);
+  vm.runInContext(commonSource, context);
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(context.window.MKScore.getBoardLocation())),
+    { guildId: "123456789012345678", channelId: "111111111111111111", boardId: "c111111111111111111" }
+  );
+});
+
+test("live client uses Firebase EventSource signals plus polling fallback", () => {
+  assert.match(commonSource, /new window\.EventSource\(endpoint/);
+  assert.match(commonSource, /\["put", "patch"\]/);
+  assert.match(commonSource, /queueLiveReload/);
+  assert.match(commonSource, /window\.setTimeout\(scheduleNext, pollInterval\)/);
+  assert.match(commonSource, /cache:\s*"no-store"/);
+});
+
+test("site and overlays expose exact final tiebreak explanations", () => {
+  assert.match(indexHtml, /id="tiebreak-detail"/);
+  for (const html of [overlayHtml, tiktokHorizontalHtml, tiktokVerticalHtml]) {
+    assert.match(html, /id="overlay-tiebreak"/);
+  }
+  assert.match(scoreboardSource, /getTiebreakDetails/);
+  assert.match(overlaySource, /getTiebreakDetails/);
+  assert.match(commonSource, /place finishes decided the order/);
+});
+
+test("public website renders each team tag once instead of duplicating name and tag", () => {
+  assert.doesNotMatch(scoreboardSource, /team\.name/);
+  assert.match(scoreboardSource, /createElement\("div", "team-tag", team\.tag\)/);
+  assert.match(scoreboardSource, /createElement\("span", "table-tag", team\.tag\)/);
+});
+
+test("responsive site and versioned assets are present", () => {
+  assert.match(stylesSource, /repeat\(auto-fit, minmax/);
+  assert.match(stylesSource, /@media \(max-width: 480px\)/);
+  assert.match(stylesSource, /-webkit-overflow-scrolling: touch/);
+  for (const html of [indexHtml, overlayHtml, tiktokHorizontalHtml, tiktokVerticalHtml]) {
+    assert.match(html, /\?v=2\.4\.0/);
+  }
+  const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+  assert.equal(packageJson.version, "2.4.0");
+});
+
+test("numeric team tags are rejected by the public normalizer", () => {
+  assert.match(commonSource, /\^\[A-Z\]\[A-Z_-\]\{0,7\}\$/);
+  assert.doesNotMatch(commonSource, /`T\$\{index \+ 1\}`/);
+});
+
+test("tiebreak detail reports the exact placement criterion that resolves a point tie", () => {
+  const context = {
+    window: { location: { search: "" }, MK_SCORE_CONFIG: {}, setTimeout, clearTimeout },
+    URL, URLSearchParams, Intl, Date, console,
+    fetch: async () => { throw new Error("not called"); }, AbortController
+  };
+  vm.createContext(context);
+  vm.runInContext(commonSource, context);
+  const state = context.window.MKScore.normalizeTournament({
+    status: "finished",
+    maxRaces: 1,
+    teams: [
+      { tag: "AA", name: "AA", color: "#ff4655" },
+      { tag: "BB", name: "BB", color: "#00a8ff" },
+      { tag: "CC", name: "CC", color: "#ffa502" },
+      { tag: "DD", name: "DD", color: "#2ed573" }
+    ],
+    races: [{
+      number: 1,
+      positions: [
+        "AA", "BB", "BB", "BB", "BB", "BB", "BB",
+        "AA", "AA", "AA", "AA", "AA",
+        "CC", "CC", "CC", "CC", "CC", "CC",
+        "DD", "DD", "DD", "DD", "DD", "DD"
+      ],
+      teamPoints: { AA: 100, BB: 100, CC: 50, DD: 40 }
+    }],
+    totals: { AA: 100, BB: 100, CC: 50, DD: 40 }
+  });
+  const standings = context.window.MKScore.getStandings(state);
+  const details = context.window.MKScore.getTiebreakDetails(state, standings);
+  assert.equal(details.length, 1);
+  assert.match(details[0].text, /1st-place finishes decided the order/);
+  assert.match(details[0].text, /AA 1, BB 0/);
 });

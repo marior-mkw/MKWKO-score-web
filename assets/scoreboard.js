@@ -14,6 +14,7 @@
   const winnerEl = document.querySelector("#winner");
   const winnerNameEl = document.querySelector("#winner-name");
   const winnerPointsEl = document.querySelector("#winner-points");
+  const tiebreakEl = document.querySelector("#tiebreak-detail");
   const scoringNameEl = document.querySelector("#scoring-name");
   const pointsListEl = document.querySelector("#points-list");
   const pointsTotalEl = document.querySelector("#points-total");
@@ -50,9 +51,6 @@
         createElement("div", "team-rank", team.rank),
         createElement("div", "team-tag", team.tag)
       );
-      const teamName = createElement("div", "team-name", team.name);
-      teamName.title = team.name;
-      article.append(teamName);
 
       const total = createElement("div", "team-total", team.total);
       total.append(createElement("small", "", "PTS"));
@@ -95,8 +93,7 @@
       teamWrap.style.setProperty("--team-color", team.color);
       const swatch = createElement("span", "table-swatch");
       swatch.setAttribute("aria-hidden", "true");
-      const label = createElement("span", "", `${team.name} `);
-      label.append(createElement("span", "table-tag", team.tag));
+      const label = createElement("span", "table-tag", team.tag);
       teamWrap.append(swatch, label);
       nameCell.append(teamWrap);
       row.append(nameCell);
@@ -129,6 +126,10 @@
       bodyEl.replaceChildren();
       emptyEl.hidden = false;
       winnerEl.classList.remove("visible");
+      if (tiebreakEl) {
+        tiebreakEl.hidden = true;
+        tiebreakEl.replaceChildren();
+      }
       return;
     }
 
@@ -154,13 +155,29 @@
     winnerEl.classList.toggle("visible", finished && standings.length > 0);
     if (finished && standings.length > 0) {
       const leaders = standings.filter(team => team.rank === 1);
-      const winnerWasResolvedByCountback = leaders.length === 1
-        && standings.length > 1
-        && standings[1].total === standings[0].total;
+      const tiebreakDetails = window.MKScore.getTiebreakDetails(state, standings);
+      const firstPlacePointTie = standings.length > 1 && standings[1].total === standings[0].total;
       winnerNameEl.textContent = leaders.length > 1
-        ? `Tie: ${leaders.map(team => team.name).join(" / ")}`
-        : leaders[0].name;
-      winnerPointsEl.textContent = `${standings[0].total} pts${winnerWasResolvedByCountback ? " · countback" : ""}`;
+        ? `Tie: ${leaders.map(team => team.tag).join(" / ")}`
+        : leaders[0].tag;
+      winnerPointsEl.textContent = `${standings[0].total} pts${firstPlacePointTie && leaders.length === 1 ? " · countback" : ""}`;
+
+      if (tiebreakEl) {
+        if (tiebreakDetails.length) {
+          const fragment = document.createDocumentFragment();
+          for (const detail of tiebreakDetails) {
+            fragment.append(createElement("div", "tiebreak-line", detail.text));
+          }
+          tiebreakEl.replaceChildren(fragment);
+          tiebreakEl.hidden = false;
+        } else {
+          tiebreakEl.hidden = true;
+          tiebreakEl.replaceChildren();
+        }
+      }
+    } else if (tiebreakEl) {
+      tiebreakEl.hidden = true;
+      tiebreakEl.replaceChildren();
     }
   }
 

@@ -1,8 +1,8 @@
 {
   "name": "mkwko-score-web",
-  "version": "2.2.2",
+  "version": "2.4.0",
   "private": true,
-  "description": "Public scoreboard with compact-progress standard, TikTok horizontal, and TikTok vertical fixed-order OBS overlays for MKWKO Score Bot",
+  "description": "Responsive channel-owned public scoreboard with live standard and TikTok OBS overlays for MKWKO Score Bot",
   "scripts": {
     "test": "node --test"
   }

@@ -1,10 +1,11 @@
 # Changelog
 
-## 2.2.2
+## 2.4.0
 
-- Removed the visible tournament title from every OBS overlay.
-- Removed textual race/scoring status from the overlay header.
-- Added a compact race-progress strip with one square per configured race.
-- Completed races fill their corresponding square; remaining races stay outlined.
-- Preserved fixed Red, Blue, Yellow, Green team lanes and the existing score-card whitespace.
-- Applied the same compact progress treatment to standard, TikTok horizontal, and TikTok vertical layouts.
+- Added Discord-channel-owned URL routing with stable `guild` + `channel` query parameters.
+- Added Firebase EventSource live-update signaling with 5-second polling fallback.
+- Added cache-busting version parameters to CSS and JavaScript assets.
+- Removed duplicate team-name rendering so each team TAG appears once.
+- Improved responsive layout for desktop, tablet and mobile browsers.
+- Added exact final tiebreak explanations to the public site and all OBS overlays.
+- Preserved fixed 2 x 2 team color positions and compact race-progress boxes.

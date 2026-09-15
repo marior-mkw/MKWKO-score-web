@@ -3,7 +3,8 @@ window.MK_SCORE_CONFIG = {
   // Never add a Firebase service-account JSON, private key, or Discord token.
   databaseURL: "https://mkw-kobot-default-rtdb.firebaseio.com",
 
-  // Normally left empty. /mk overlay generates URLs with guild and board parameters.
+  // Normally left empty. /mk overlay generates URLs with guild and channel parameters.
+  // defaultBoardId is retained only for backward-compatible legacy links.
   defaultGuildId: "",
   defaultBoardId: "",
 
