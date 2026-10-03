@@ -1,4 +1,4 @@
-# MKWKO Score Web v2.4.6
+# MKWKO Score Web v2.4.7
 
 Public website and OBS/TikTok overlays for MKWKO.
 

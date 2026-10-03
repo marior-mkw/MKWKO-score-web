@@ -1,4 +1,4 @@
-# MKWKO Score Web v2.4.6 — Validation Report
+# MKWKO Score Web v2.4.7 — Validation Report
 
 Validated on 2026-10-03.
 
@@ -19,8 +19,8 @@ Validated on 2026-10-03.
 
 JavaScript syntax checks passed for:
 - `assets/scoreboard.js`
-- `assets/overlay-v2.4.6.js`
+- `assets/overlay-v2.4.7.js`
 
 ## Cache/version isolation
-- Website assets use `?v=2.4.6`.
-- All overlay entry points load `overlay-v2.4.6.css` and `overlay-v2.4.6.js`.
+- Website assets use `?v=2.4.7`.
+- All overlay entry points load `overlay-v2.4.7.css` and `overlay-v2.4.7.js`.

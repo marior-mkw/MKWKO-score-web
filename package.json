@@ -1,6 +1,6 @@
 {
   "name": "mkwko-score-web",
-  "version": "2.4.6",
+  "version": "2.4.7",
   "private": true,
   "description": "Responsive channel-owned public scoreboard with fixed four-team website lanes and a single-row TikTok Horizontal overlay for MKWKO Score Bot",
   "scripts": {
