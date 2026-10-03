@@ -42,19 +42,37 @@
     }
   }
 
-  function renderTeamCards(standings) {
+  function renderTeamCards(state, standings) {
+    const standingByTag = new Map(standings.map(team => [team.tag, team]));
     const fragment = document.createDocumentFragment();
-    for (const team of standings) {
+
+    // v2.4.6: the public site always renders the configured lane order.
+    // Never iterate `standings` here: standings are sorted by rank and would move cards.
+    // Rank and points update in place while Red / Blue / Yellow / Green stay fixed.
+    const configuredLaneOrder = Array.isArray(state.teams) ? state.teams.slice(0, 4) : [];
+    for (const configuredTeam of configuredLaneOrder) {
+      const team = standingByTag.get(configuredTeam.tag) || {
+        ...configuredTeam,
+        rank: "-",
+        total: Number(state.totals?.[configuredTeam.tag] || 0)
+      };
+
       const article = createElement("article", "team-card");
       article.style.setProperty("--team-color", team.color);
-      article.append(
-        createElement("div", "team-rank", team.rank),
+      article.dataset.teamTag = team.tag;
+
+      const top = createElement("div", "team-card-top");
+      const rankText = Number.isFinite(Number(team.rank))
+        ? ordinal(Number(team.rank))
+        : String(team.rank || "-");
+      top.append(
+        createElement("div", "team-rank", rankText),
         createElement("div", "team-tag", team.tag)
       );
 
       const total = createElement("div", "team-total", team.total);
       total.append(createElement("small", "", "PTS"));
-      article.append(total);
+      article.append(top, total);
       fragment.append(article);
     }
     gridEl.replaceChildren(fragment);
@@ -147,7 +165,7 @@
       .join(", ");
     pointsTotalEl.textContent = `Each race awards exactly ${scoring.total} points.`;
 
-    renderTeamCards(standings);
+    renderTeamCards(state, standings);
     renderProgress(state.maxRaces, completed);
     renderTable(state);
 
