@@ -1,8 +1,8 @@
 {
   "name": "mkwko-score-web",
-  "version": "2.4.0",
+  "version": "2.4.5",
   "private": true,
-  "description": "Responsive channel-owned public scoreboard with live standard and TikTok OBS overlays for MKWKO Score Bot",
+  "description": "Responsive channel-owned public scoreboard with fixed in-game team lanes and live OBS overlays for MKWKO Score Bot",
   "scripts": {
     "test": "node --test"
   }
