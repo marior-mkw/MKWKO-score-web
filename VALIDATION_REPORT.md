@@ -1,15 +1,26 @@
-# Validation report - web v2.4.5
+# MKWKO Score Web v2.4.6 — Validation Report
 
-Validated after the public-site team-lane update.
+Validated on 2026-10-03.
 
-- `node --check assets/scoreboard.js`: pass
-- `node --check assets/common.js`: pass
-- `node --check assets/overlay-v2.4.4.js`: pass
-- `npm test`: 18 passed, 0 failed
+## Requested behavior
+- Public website renders the four configured teams in one horizontal row.
+- Public website renders cards in `state.teams` setup order, never in live standings order.
+- Rank and points update in place without moving team cards.
+- Website team labels remain upright and are not duplicated.
+- Narrow browsers keep one horizontal lane row using horizontal scrolling rather than stacking/reordering cards.
+- TikTok Horizontal overlay alone uses one row with four fixed team lanes.
+- Standard OBS remains 2 x 2.
+- TikTok Vertical remains 2 x 2.
+- All overlays keep fixed setup order while rank/points update.
+- Firebase URL remains `https://mkw-kobot-default-rtdb.firebaseio.com` and demo mode remains disabled.
 
-Specific regression checks include:
-- Public scoreboard cards iterate `state.teams` (configured order) rather than standings order.
-- Four-column public summary layout is preserved.
-- Team tags render once and numeric tags remain rejected.
-- Current channel-owned Firebase URL behavior remains unchanged.
-- Existing v2.4.4 OBS overlay bundle is preserved in the full package.
+## Automated checks
+`npm test`: 18 passed, 0 failed.
+
+JavaScript syntax checks passed for:
+- `assets/scoreboard.js`
+- `assets/overlay-v2.4.6.js`
+
+## Cache/version isolation
+- Website assets use `?v=2.4.6`.
+- All overlay entry points load `overlay-v2.4.6.css` and `overlay-v2.4.6.js`.

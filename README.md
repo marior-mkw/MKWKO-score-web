@@ -1,4 +1,14 @@
-# MKWKO Score Web v2.4.0
+# MKWKO Score Web v2.4.6
+
+Public website and OBS/TikTok overlays for MKWKO.
+
+## Layout
+- Website: four teams in one fixed horizontal row (scrollable on narrow screens).
+- Standard OBS: fixed 2 x 2.
+- TikTok Horizontal: four teams in one fixed horizontal row.
+- TikTok Vertical: fixed 2 x 2.
+- Team cards never reorder by score/rank; configured lane order remains fixed.
+
 
 Responsive public scoreboard and OBS overlays for MKWKO Score Bot v2.7.0.
 
