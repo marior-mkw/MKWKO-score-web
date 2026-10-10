@@ -1,20 +1,23 @@
-# MKWKO Score Web v2.4.8
+# MKWKO Score Web v2.4.9
 
-Public website and OBS/TikTok overlays for MKWKO.
+Frontend estático para GitHub Pages, compatible con el estado público del bot existente.
 
-## Layout
-- Website: four teams in one fixed horizontal row (scrollable on narrow screens).
-- Standard OBS: fixed 2 x 2.
-- TikTok Horizontal: four teams in one fixed horizontal row.
-- TikTok Vertical: fixed 2 x 2.
-- Team cards never reorder by score/rank; configured lane order remains fixed.
+## Diseño
+- Sitio web: cuatro tarjetas en una fila fija, con desplazamiento en pantallas estrechas.
+- OBS Standard: una columna con cuatro tarjetas, RED / BLUE / YELLOW / GREEN.
+- TikTok Horizontal: cuatro tarjetas en una fila.
+- TikTok Vertical: dos columnas y dos filas.
+- Las tarjetas comparten fondo oscuro, borde ligero y franja superior del color del equipo.
+- No se dibuja un contorno alrededor del conjunto de tarjetas.
+- La banda del nombre es amarilla, con texto blanco delineado, debajo y a la derecha.
+- Solo aparece si `name` contiene texto en el estado público. Sin nombre no reserva espacio.
+- El progreso de carreras aparece sobre un panel oscuro propio, con indicadores y conteo N/M.
+- Racers Delight se carga localmente en el sitio y en los overlays. El estilo inclinado
+  de sus letras pertenece a la fuente proporcionada. No se requiere instalarla en OBS.
+- Los nombres muestran hasta 24 caracteres visuales, con reducción de fuente y elipsis.
 
-
-Responsive public scoreboard and OBS overlays for MKWKO Score Bot v2.7.0.
-
-## Channel-owned URLs
-
-Use the exact links returned by `/mk overlay`:
+## Enlaces del bot
+Conservar los enlaces que ya devuelve `/mk overlay`:
 
 ```text
 /?guild=GUILD_ID&channel=CHANNEL_ID
@@ -23,53 +26,30 @@ Use the exact links returned by `/mk overlay`:
 /overlay-tiktok-vertical.html?guild=GUILD_ID&channel=CHANNEL_ID
 ```
 
-The browser derives the internal board ID from the Discord channel. Old explicit `board=` links remain readable for migration, but new links use `channel=`.
+Los enlaces antiguos con `board=` también siguen funcionando.
 
-## OBS dimensions
+## Tamaños de referencia de Browser Source
+- OBS Standard vertical: **420 × 760** (alternativa 400 × 720).
+- TikTok Horizontal: **1920 × 190** (alternativa 1280 × 150).
+- TikTok Vertical: **1080 × 1920**.
+El encuadre se calcula desde el viewport. Los lienzos completos siguen admitidos.
 
-- Standard 2 x 2: **960 x 320**
-- TikTok Horizontal 4 x 1: **1920 x 190** (or full canvas 1920 x 1080)
-- TikTok Vertical 2 x 2: **1080 x 1920**
+## Instalación y verificación
+Consultar `INSTALACION-v2.4.9.md`, `ARCHIVOS-MODIFICADOS-v2.4.9.md` y
+`VALIDATION_REPORT.md`. No se necesita compilar el sitio.
+Las guías con v2.4.8 en su nombre corresponden a la versión anterior.
 
-All overlays keep Red, Blue / Yellow, Green in fixed physical slots.
+## Datos y bot
+Se mantienen el cliente público, los enlaces por canal, las actualizaciones en vivo,
+el cálculo de posiciones y los detalles de desempate. `assets/config.js` conserva
+`https://mkw-kobot-default-rtdb.firebaseio.com` y `demoMode: false`.
+El bot, Cloud Run y Firebase Rules no se modifican.
 
-## Live updates
+## Créditos
+Fuente **Racers Delight** por **@ImWhoreHay**, según el README suministrado.
+Se conserva ese README junto al archivo de fuente en `assets/fonts/`.
 
-The client opens a Firebase REST EventSource stream for immediate update signals and keeps normal 5-second polling as a fallback. Asset URLs are versioned to reduce stale OBS browser caching after deployment.
+Mario Render used in showcase images by [@mario64models](https://ko-fi.com/mario64models)
+and [@CashBanacho](https://ko-fi.com/CashBanacho).
 
-After upgrading the files on GitHub Pages, refresh the OBS Browser Source cache once.
-
-## Website improvements
-
-- Team TAG is rendered once per team.
-- Responsive team cards and tables adapt to desktop, tablet and phone widths.
-- Final point ties show the exact placement-countback condition used to separate tied teams.
-- Invalid external team tags are sanitized before display.
-
-## Firebase configuration
-
-`assets/config.js` must point to:
-
-```text
-https://mkw-kobot-default-rtdb.firebaseio.com
-```
-
-The website uses only the public sanitized projection and contains no administrative credentials.
-
-## v2.4.8 — Nombre del enfrentamiento
-
-El marco y la placa inferior aparecen únicamente si el estado público contiene
-`name` con texto. Sin nombre, no hay marco ni espacio reservado para la placa.
-El nombre procede del mismo estado del bot; no se agrega un campo en Discord
-ni se modifica el bot. El título genérico del sitio no activa el marco.
-Se muestran hasta 24 caracteres visuales; los nombres más largos se truncan con
-`...`. La fuente se reduce hasta 10 px y después se aplica elipsis si falta ancho.
-El nombre completo normalizado (hasta 80 caracteres, como en v2.4.7) queda en el
-atributo accesible y en el título de la placa.
-
-El contorno neutral conserva el fondo transparente fuera de las tarjetas.
-El marco cabe en el espacio original de cada variante, incluyendo la placa.
-No cambia el orden de equipos ni la geometría exterior al actualizar los puntos.
-
-Consultar `INSTALACION-v2.4.8.md`, `ARCHIVOS-MODIFICADOS-v2.4.8.md` y
-`VALIDATION_REPORT.md` para instalación, diferencias y comprobaciones.
+Consultar también `CREDITS.md`. Los créditos aparecen en el pie del sitio público.

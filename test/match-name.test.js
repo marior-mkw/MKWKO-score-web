@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
-const bundle = fs.readFileSync(path.join(__dirname, '../assets/overlay-v2.4.8.js'), 'utf8');
+const bundle = fs.readFileSync(path.join(__dirname, '../assets/overlay-v2.4.9.js'), 'utf8');
 const context = {window: {}, URL, URLSearchParams, Intl, Date, setTimeout, clearTimeout};
 vm.createContext(context);
 vm.runInContext(bundle.slice(0, bundle.indexOf('  const presentation =')) + '\nglobalThis.api = scoreApi;\n})();', context);
