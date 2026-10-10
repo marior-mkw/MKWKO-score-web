@@ -1,26 +1,25 @@
-# MKWKO Score Web v2.4.7 — Validation Report
+# MKWKO Score Web v2.4.8 — Verificación
 
-Validated on 2026-10-03.
+Fecha: 2026-10-10. Base: v2.4.7 del repositorio público,
+commit `d2a7dc0fe53450eb15e073cfbb1d6c2d0b105bf5`.
 
-## Requested behavior
-- Public website renders the four configured teams in one horizontal row.
-- Public website renders cards in `state.teams` setup order, never in live standings order.
-- Rank and points update in place without moving team cards.
-- Website team labels remain upright and are not duplicated.
-- Narrow browsers keep one horizontal lane row using horizontal scrolling rather than stacking/reordering cards.
-- TikTok Horizontal overlay alone uses one row with four fixed team lanes.
-- Standard OBS remains 2 x 2.
-- TikTok Vertical remains 2 x 2.
-- All overlays keep fixed setup order while rank/points update.
-- Firebase URL remains `https://mkw-kobot-default-rtdb.firebaseio.com` and demo mode remains disabled.
+- Pruebas del proyecto: 21 aprobadas, 0 fallidas (18 existentes + 3 de nombre).
+- Sintaxis: todos los archivos JavaScript del paquete comprobados con Node.
+- Navegador real: Microsoft Edge sin interfaz, 72 escenarios aprobados.
+- Tres variantes y cuatro tamaños por variante: 1920×1080, 1920×190,
+  1280×150 y 1080×1920.
+- Nombre ausente, espacios, nombre normal, nombre largo con emoji y texto que
+  parece HTML: se mantiene texto literal, sin crear elementos HTML.
+- Nombre y marcador dentro del viewport, transparencia del documento, ajuste
+  completo de TAG y puntos y disposición 2×2 / 4×1 / 2×2.
+- Cambios por el cliente de polling real usando respuestas Firebase simuladas:
+  nombre nuevo, puntos actualizados, estado terminado y nombre borrado sin cambiar URL.
+- Geometría exterior idéntica antes/después de cambiar puntos y estado.
+- Configuración pública y todos los archivos originales no enumerados como
+  modificados se verificaron por SHA-256 contra la base.
+- ZIP completo comprobado contra la carpeta de salida; sin modificación del bot.
 
-## Automated checks
-`npm test`: 18 passed, 0 failed.
-
-JavaScript syntax checks passed for:
-- `assets/scoreboard.js`
-- `assets/overlay-v2.4.7.js`
-
-## Cache/version isolation
-- Website assets use `?v=2.4.7`.
-- All overlay entry points load `overlay-v2.4.7.css` and `overlay-v2.4.7.js`.
+Las pruebas usan datos controlados y no escriben en Firebase. Se inspeccionaron
+capturas de las tres variantes. No se realizó un despliegue en GitHub Pages ni
+una prueba dentro de OBS; la verificación de publicación corresponde al paso
+de instalación.

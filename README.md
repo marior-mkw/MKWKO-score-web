@@ -1,4 +1,4 @@
-# MKWKO Score Web v2.4.7
+# MKWKO Score Web v2.4.8
 
 Public website and OBS/TikTok overlays for MKWKO.
 
@@ -28,7 +28,7 @@ The browser derives the internal board ID from the Discord channel. Old explicit
 ## OBS dimensions
 
 - Standard 2 x 2: **960 x 320**
-- TikTok Horizontal 2 x 2: **1920 x 1080**
+- TikTok Horizontal 4 x 1: **1920 x 190** (or full canvas 1920 x 1080)
 - TikTok Vertical 2 x 2: **1080 x 1920**
 
 All overlays keep Red, Blue / Yellow, Green in fixed physical slots.
@@ -55,3 +55,21 @@ https://mkw-kobot-default-rtdb.firebaseio.com
 ```
 
 The website uses only the public sanitized projection and contains no administrative credentials.
+
+## v2.4.8 — Nombre del enfrentamiento
+
+El marco y la placa inferior aparecen únicamente si el estado público contiene
+`name` con texto. Sin nombre, no hay marco ni espacio reservado para la placa.
+El nombre procede del mismo estado del bot; no se agrega un campo en Discord
+ni se modifica el bot. El título genérico del sitio no activa el marco.
+Se muestran hasta 24 caracteres visuales; los nombres más largos se truncan con
+`...`. La fuente se reduce hasta 10 px y después se aplica elipsis si falta ancho.
+El nombre completo normalizado (hasta 80 caracteres, como en v2.4.7) queda en el
+atributo accesible y en el título de la placa.
+
+El contorno neutral conserva el fondo transparente fuera de las tarjetas.
+El marco cabe en el espacio original de cada variante, incluyendo la placa.
+No cambia el orden de equipos ni la geometría exterior al actualizar los puntos.
+
+Consultar `INSTALACION-v2.4.8.md`, `ARCHIVOS-MODIFICADOS-v2.4.8.md` y
+`VALIDATION_REPORT.md` para instalación, diferencias y comprobaciones.
