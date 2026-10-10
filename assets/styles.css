@@ -11,8 +11,8 @@
   --warning: #ffa502;
   --danger: #ff4757;
   --radius: 22px;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+  font-family: "Racers Delight", "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
 }
 
 * { box-sizing: border-box; }
@@ -115,6 +115,19 @@ h1 {
  * Rank changes update only the ordinal text; cards never receive CSS order values. */
 .summary-grid > .team-card { order: 0; }
 
+.site-credits {
+  margin-top: 24px; color: #aeb8cf; font: 12px/1.6 "Segoe UI", Arial, sans-serif;
+}
+.site-credits span { display: block; }
+.site-credits a { color: #dce5f6; }
+
+h1 {
+  font-family: "Racers Delight", "Arial Black", sans-serif;
+  font-weight: 400; line-height: 1.15;
+  -webkit-text-stroke: 1px #34291a; paint-order: stroke fill;
+  text-shadow: 0 2px 0 #34291a;
+}
+
 .team-card {
   position: relative;
   min-width: 0;
@@ -123,13 +136,11 @@ h1 {
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.22);
   border-radius: 20px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.085), rgba(255,255,255,0.02) 30%, rgba(0,0,0,0.04)),
-    rgba(24, 30, 39, 0.84);
+  background: linear-gradient(180deg, rgba(39,50,70,.96), rgba(16,22,34,.98));
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.13),
-    0 10px 30px rgba(0,0,0,0.20);
-  backdrop-filter: blur(12px) saturate(118%);
+    inset 0 -1px rgba(0,0,0,.3);
+  backdrop-filter: none;
 }
 
 .team-card::before {

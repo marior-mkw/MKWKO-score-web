@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.4.9 — 2026-10-10
+- OBS Standard cambia a una columna vertical de cuatro tarjetas.
+- Tarjetas homogéneas en sitio, OBS y TikTok; sin contorno exterior del conjunto.
+- Título mayor en banda amarilla inferior derecha, inspirado en el recorte del juego.
+- Progreso con panel oscuro propio y conteo N/M.
+- Fuente Racers Delight local en todos los layouts y créditos en sitio/documentación.
+- Nuevos assets 2.4.9 y referencias actualizadas para evitar caché anterior.
+- Bot y configuración pública intactos.
+
+
 ## 2.4.8 — 2026-10-10
 - Marco opcional neutral y placa inferior en los tres overlays, a partir de `state.name`.
 - Sin nombre real, no se activa el marco ni se reserva espacio.

@@ -1,34 +1,35 @@
 <!doctype html>
-<html lang="en" class="overlay-document" data-overlay-build="2.4.8">
+<html lang="en" class="overlay-document" data-overlay-build="2.4.9">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="mkwko-overlay-release" content="2.4.8">
+  <meta name="mkwko-overlay-release" content="2.4.9">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://*.firebaseio.com https://*.firebasedatabase.app; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; media-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <title>TikTok Vertical Overlay - MKWKO 2.4.8</title>
-  <link rel="stylesheet" href="assets/overlay-v2.4.8.css">
+  <title>TikTok Vertical Overlay - MKWKO 2.4.9</title>
+  <link rel="stylesheet" href="assets/fonts-v2.4.9.css">
+  <link rel="stylesheet" href="assets/overlay-v2.4.9.css">
 </head>
 <body class="overlay-page overlay-tiktok-vertical">
   <main class="overlay-shell">
     <div id="overlay-match-frame" class="overlay-match-frame" hidden>
-      <svg class="overlay-match-outline" aria-hidden="true" width="100%" height="100%">
-        <polygon id="overlay-match-contour" fill="none" />
-      </svg>
     <section id="overlay-board" class="overlay-board" hidden aria-label="Channel scoreboard">
       <header class="overlay-progress" aria-label="Race progress">
-        <div id="overlay-progress-markers" class="overlay-progress-markers"></div>
+        <div class="overlay-progress-panel">
+          <div id="overlay-progress-markers" class="overlay-progress-markers"></div>
+          <span id="overlay-race-count" class="overlay-race-count"></span>
+        </div>
       </header>
       <div id="overlay-tiebreak" class="overlay-tiebreak" hidden aria-live="polite"></div>
       <div id="overlay-teams" class="overlay-teams"></div>
     </section>
       <div id="overlay-match-name" class="overlay-match-name" hidden></div>
     </div>
-    <div id="overlay-message" class="overlay-message visible" role="status">Loading overlay 2.4.8...<span class="loading-note">If this remains visible, check that assets/overlay-v2.4.8.js was published.</span></div>
+    <div id="overlay-message" class="overlay-message visible" role="status">Loading overlay 2.4.9...<span class="loading-note">If this remains visible, check that assets/overlay-v2.4.9.js was published.</span></div>
     <noscript>JavaScript must be enabled to show the live scoreboard.</noscript>
   </main>
-  <script src="assets/config.js?v=2.4.8"></script>
-  <script src="assets/overlay-v2.4.8.js"></script>
+  <script src="assets/config.js?v=2.4.9"></script>
+  <script src="assets/overlay-v2.4.9.js"></script>
 </body>
 </html>
