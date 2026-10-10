@@ -14,8 +14,8 @@ const tiktokVerticalHtml = fs.readFileSync(path.join(root, "overlay-tiktok-verti
 const stylesSource = fs.readFileSync(path.join(root, "assets/styles.css"), "utf8");
 const commonSource = fs.readFileSync(path.join(root, "assets/common.js"), "utf8");
 const scoreboardSource = fs.readFileSync(path.join(root, "assets/scoreboard.js"), "utf8");
-const overlaySource = fs.readFileSync(path.join(root, "assets/overlay-v2.4.6.js"), "utf8");
-const overlayStylesSource = fs.readFileSync(path.join(root, "assets/overlay-v2.4.6.css"), "utf8");
+const overlaySource = fs.readFileSync(path.join(root, "assets/overlay-v2.4.8.js"), "utf8");
+const overlayStylesSource = fs.readFileSync(path.join(root, "assets/overlay-v2.4.8.css"), "utf8");
 const configSource = fs.readFileSync(path.join(root, "assets/config.js"), "utf8");
 
 test("all public pages define a restrictive CSP and no-referrer policy", () => {
@@ -232,17 +232,17 @@ test("public website renders each team tag once instead of duplicating name and 
   assert.match(scoreboardSource, /createElement\("span", "table-tag", team\.tag\)/);
 });
 
-test("responsive site and v2.4.6 versioned assets are present", () => {
+test("responsive site and v2.4.8 versioned assets are present", () => {
   assert.match(stylesSource, /grid-template-columns:\s*repeat\(4, minmax/);
   assert.match(stylesSource, /grid-auto-flow:\s*column/);
   assert.match(stylesSource, /@media \(max-width: 480px\)/);
   assert.match(stylesSource, /-webkit-overflow-scrolling: touch/);
-  assert.match(indexHtml, /\?v=2\.4\.6/);
+  assert.match(indexHtml, /\?v=2\.4\.8/);
   for (const html of [overlayHtml, tiktokHorizontalHtml, tiktokVerticalHtml]) {
-    assert.match(html, /overlay-v2\.4\.6/);
+    assert.match(html, /overlay-v2\.4\.8/);
   }
   const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
-  assert.equal(packageJson.version, "2.4.6");
+  assert.equal(packageJson.version, "2.4.8");
 });
 
 test("public scoreboard keeps configured team order instead of standings order", () => {
